@@ -74,9 +74,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af572b93bc9f99e2e034d9cfed52afe3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#af572b93bc9f99e2e034d9cfed52afe3d">egoShield</a> (void)</td></tr>
 <tr class="memdesc:af572b93bc9f99e2e034d9cfed52afe3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="classegoShield.html">egoShield</a> class.  <a href="#af572b93bc9f99e2e034d9cfed52afe3d">More...</a><br /></td></tr>
 <tr class="separator:af572b93bc9f99e2e034d9cfed52afe3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4272c38d25b781dfc373a9d30345a4c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a4272c38d25b781dfc373a9d30345a4c0">setup</a> (uint16_t acc, uint16_t vel)</td></tr>
-<tr class="memdesc:a4272c38d25b781dfc373a9d30345a4c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes buttons, OLED, uStepper and BT-module.  <a href="#a4272c38d25b781dfc373a9d30345a4c0">More...</a><br /></td></tr>
-<tr class="separator:a4272c38d25b781dfc373a9d30345a4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a977455b113fb10c8ea5af2e5698530b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a977455b113fb10c8ea5af2e5698530b1">setup</a> (uint16_t acc=1500, uint16_t vel=1000, uint8_t uStep=<a class="el" href="egoShield_8h.html#abb254031f3aabcf1496d49bc967946e4">SIXTEEN</a>, uint16_t fTol=10, uint16_t fHys=5, float P=1.0, float I=0.02, float D=0.006)</td></tr>
+<tr class="memdesc:a977455b113fb10c8ea5af2e5698530b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes buttons, OLED, uStepper and BT-module.  <a href="#a977455b113fb10c8ea5af2e5698530b1">More...</a><br /></td></tr>
+<tr class="separator:a977455b113fb10c8ea5af2e5698530b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41daa10d22816a36e664c0675ab219b4"><td class="memItemLeft" align="right" valign="top"><a id="a41daa10d22816a36e664c0675ab219b4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a41daa10d22816a36e664c0675ab219b4">loop</a> (void)</td></tr>
 <tr class="memdesc:a41daa10d22816a36e664c0675ab219b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause). <br /></td></tr>
@@ -169,16 +169,26 @@ Private Attributes</h2></td></tr>
 <tr class="separator:ac07ef5356ff6ffd0d7813eeeb9961622"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d6b27161706494825b424eef65fad86"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a3d6b27161706494825b424eef65fad86">setPoint</a></td></tr>
 <tr class="separator:a3d6b27161706494825b424eef65fad86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba2b15f319431f60f3c37841c55c5396"><td class="memItemLeft" align="right" valign="top"><a id="aba2b15f319431f60f3c37841c55c5396"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>acceleration</b></td></tr>
+<tr class="memitem:aba2b15f319431f60f3c37841c55c5396"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#aba2b15f319431f60f3c37841c55c5396">acceleration</a></td></tr>
 <tr class="separator:aba2b15f319431f60f3c37841c55c5396"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bad679522cc978e447fa3c89a6a006d"><td class="memItemLeft" align="right" valign="top"><a id="a4bad679522cc978e447fa3c89a6a006d"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td></tr>
+<tr class="memitem:a4bad679522cc978e447fa3c89a6a006d"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a4bad679522cc978e447fa3c89a6a006d">velocity</a></td></tr>
 <tr class="separator:a4bad679522cc978e447fa3c89a6a006d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a204606c1a1559082766fdfaa6f7bb80a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a204606c1a1559082766fdfaa6f7bb80a">microStepping</a></td></tr>
+<tr class="separator:a204606c1a1559082766fdfaa6f7bb80a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7156f037e9f1e71a079d88417721cadc"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a7156f037e9f1e71a079d88417721cadc">faultTolerance</a></td></tr>
+<tr class="separator:a7156f037e9f1e71a079d88417721cadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14de87eb2c3826f7546304c9c133dbb0"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a14de87eb2c3826f7546304c9c133dbb0">faultHysteresis</a></td></tr>
+<tr class="separator:a14de87eb2c3826f7546304c9c133dbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5f24c088feed2063929ddffc0668810"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#aa5f24c088feed2063929ddffc0668810">pTerm</a></td></tr>
+<tr class="separator:aa5f24c088feed2063929ddffc0668810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49dc2d3220a28636978bce13ea5638bc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a49dc2d3220a28636978bce13ea5638bc">iTerm</a></td></tr>
+<tr class="separator:a49dc2d3220a28636978bce13ea5638bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace39fcc74412093613d6ed3e68e7ead3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#ace39fcc74412093613d6ed3e68e7ead3">dTerm</a></td></tr>
+<tr class="separator:ace39fcc74412093613d6ed3e68e7ead3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00164">164</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00173">173</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af572b93bc9f99e2e034d9cfed52afe3d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af572b93bc9f99e2e034d9cfed52afe3d">&#9670;&nbsp;</a></span>egoShield()</h2>
@@ -252,7 +262,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 <dd>
 2 - long push detected. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00312">312</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00318">318</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,7 +309,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00382">382</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00388">388</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +363,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00521">521</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00527">527</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -407,7 +417,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00478">478</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00484">484</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,12 +478,12 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00424">424</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00430">430</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a4272c38d25b781dfc373a9d30345a4c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4272c38d25b781dfc373a9d30345a4c0">&#9670;&nbsp;</a></span>setup()</h2>
+<a id="a977455b113fb10c8ea5af2e5698530b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a977455b113fb10c8ea5af2e5698530b1">&#9670;&nbsp;</a></span>setup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -482,13 +492,49 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
           <td class="memname">void egoShield::setup </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>acc</em>, </td>
+          <td class="paramname"><em>acc</em> = <code>1500</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>vel</em>&#160;</td>
+          <td class="paramname"><em>vel</em> = <code>1000</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>uStep</em> = <code><a class="el" href="egoShield_8h.html#abb254031f3aabcf1496d49bc967946e4">SIXTEEN</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>fTol</em> = <code>10</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>fHys</em> = <code>5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>P</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>I</em> = <code>0.02</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>D</em> = <code>0.006</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -502,7 +548,13 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">acc</td><td>takes in the maximum acceleration in play mode.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">vel</td><td>takes in the maximum velocity in play mode. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vel</td><td>takes in the maximum velocity in play mode.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">uStep</td><td>takes in the microstepping setting.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fTol</td><td>takes in the fault tolerance for the PID in steps, i.e. how much error is allowed before correction.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fHys</td><td>takes fault hysteresis in steps, i.e. when is the PID deactivated again.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">P</td><td>takes in the PID P term.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">I</td><td>takes in the PID I term.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">D</td><td>takes in the PID D term. </td></tr>
   </table>
   </dd>
 </dl>
@@ -512,6 +564,31 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="aba2b15f319431f60f3c37841c55c5396"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba2b15f319431f60f3c37841c55c5396">&#9670;&nbsp;</a></span>acceleration</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t egoShield::acceleration</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the acceleration used during playback of the sequence </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00247">247</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
 <a id="a2d5476fb5e563cb8308b356c09fe2a3d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d5476fb5e563cb8308b356c09fe2a3d">&#9670;&nbsp;</a></span>brakeFlag</h2>
 
@@ -533,7 +610,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable indicates if motor brakes are enabled </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00199">199</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00227">227</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -558,7 +635,32 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the current state of the backward button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00215">215</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00243">243</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="ace39fcc74412093613d6ed3e68e7ead3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace39fcc74412093613d6ed3e68e7ead3">&#9670;&nbsp;</a></span>dTerm</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float egoShield::dTerm</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the PID D term </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00261">261</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -583,7 +685,57 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the final step number in the recorded sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00195">195</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00223">223</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="a14de87eb2c3826f7546304c9c133dbb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14de87eb2c3826f7546304c9c133dbb0">&#9670;&nbsp;</a></span>faultHysteresis</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t egoShield::faultHysteresis</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the fault hysteresis setting </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00255">255</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="a7156f037e9f1e71a079d88417721cadc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7156f037e9f1e71a079d88417721cadc">&#9670;&nbsp;</a></span>faultTolerance</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t egoShield::faultTolerance</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the fault tolerance setting </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00253">253</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -608,7 +760,32 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the current state of the forward button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00213">213</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00241">241</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="a49dc2d3220a28636978bce13ea5638bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49dc2d3220a28636978bce13ea5638bc">&#9670;&nbsp;</a></span>iTerm</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float egoShield::iTerm</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the PID I term </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00259">259</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -633,7 +810,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This array indicates whether one of the buttons have experienced a long duration push </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00205">205</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00233">233</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -658,7 +835,32 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable indicates whether we are in loop mode during playback </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00203">203</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00231">231</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="a204606c1a1559082766fdfaa6f7bb80a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a204606c1a1559082766fdfaa6f7bb80a">&#9670;&nbsp;</a></span>microStepping</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t egoShield::microStepping</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the microstepping setting </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00251">251</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -683,7 +885,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the step number in the recorded sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00193">193</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00221">221</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -708,7 +910,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the current state of the play button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00211">211</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00239">239</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -733,7 +935,32 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This array holds the encoder value at the recorded positions </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00197">197</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00225">225</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="aa5f24c088feed2063929ddffc0668810"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5f24c088feed2063929ddffc0668810">&#9670;&nbsp;</a></span>pTerm</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float egoShield::pTerm</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the PID P term </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00257">257</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -758,7 +985,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the current state of the record button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00209">209</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00237">237</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -783,7 +1010,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable indicates whether we are recording </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00201">201</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00229">229</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -808,7 +1035,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the current set-point to the PID, either from manual control or during playback of the sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00217">217</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00245">245</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -833,7 +1060,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>This variable holds the current state of the program, which tells whether the program is in idle, play, record or pause mode </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00207">207</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00235">235</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -858,7 +1085,32 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><div class="memdoc">
 <p>Creates an u8g2 (OLED) instance </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00191">191</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00219">219</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="a4bad679522cc978e447fa3c89a6a006d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bad679522cc978e447fa3c89a6a006d">&#9670;&nbsp;</a></span>velocity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t egoShield::velocity</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the velocity used during playback of the sequence </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00249">249</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -869,7 +1121,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Sep 9 2017 07:43:01 for egoShield by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Sep 9 2017 19:14:14 for egoShield by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

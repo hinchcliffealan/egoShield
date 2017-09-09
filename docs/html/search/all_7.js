@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['rec',['rec',['../classegoShield.html#a35bc04ba2d67492023e0a2f4b8f89927',1,'egoShield']]],
-  ['record',['record',['../classegoShield.html#ab039ce317b79475e1d16846800bef788',1,'egoShield']]],
-  ['recordmode',['recordMode',['../classegoShield.html#a0dccc775a87134bf91cdf3c558013d01',1,'egoShield']]],
-  ['recordpage',['recordPage',['../classegoShield.html#af44fa165cd75b283386cfd31c6dfe28e',1,'egoShield']]]
+  ['longpushflag',['longPushFlag',['../classegoShield.html#a4194146980bf4aea98893a54e0b9aa14',1,'egoShield']]],
+  ['loop',['loop',['../classegoShield.html#a41daa10d22816a36e664c0675ab219b4',1,'egoShield']]],
+  ['loopmode',['loopMode',['../classegoShield.html#a1285947fe2c3e024229b8f681e9d8c1c',1,'egoShield']]]
 ];

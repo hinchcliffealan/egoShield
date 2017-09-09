@@ -26,7 +26,7 @@
 *                                                                                           *
 *   void setup()                                                                            *
 *   {                                                                                       *
-*     ego.setup(2000,1000);//Acceleration and Velocity are arguments for the setup function *
+*     ego.setup();                                                                          *
 *   }                                                                                       *
 *                                                                                           *
 *   void loop()                                                                             *
@@ -68,11 +68,17 @@ egoShield::egoShield(void)
   u8g2 = new U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI(U8G2_R0, /* clock=*/ 11, /* data=*/ 9, /* cs=*/ U8X8_PIN_NONE, /* dc=*/ 2, /* reset=*/ 10);
 }
 
-void egoShield::setup(uint16_t acc, uint16_t vel)
+void egoShield::setup(uint16_t acc, uint16_t vel, uint8_t uStep, uint16_t fTol, uint16_t fHys, float P, float I, float D)
 {
-  stepper.setup(PID,SIXTEEN,20,10,1.0,1.0,0.006,1);
-  acceleration = acc;
-  velocity = vel;
+  this->acceleration = acc;
+  this->velocity = vel;
+  this->microStepping = uStep;
+  this->faultTolerance = fTol;
+  this->faultHysteresis = fHys;
+  this->pTerm = P;
+  this->iTerm = I;
+  this->dTerm = D;
+  stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,1);
   //Serial.begin(9600);
   pinMode(FWBT ,INPUT);
   pinMode(PLBT ,INPUT);
@@ -152,7 +158,7 @@ void egoShield::idleMode(void)
   {
     if(!brakeFlag)//make it possible to move stuff by hand
     {
-       stepper.setup(NORMAL,SIXTEEN,10,5,1.0,0.02,0.006,0);//pause PID to allow manual movement
+       stepper.setup(NORMAL,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//pause PID to allow manual movement
        stepper.softStop(SOFT);
        stepper.setMaxVelocity(1000);
        stepper.setMaxAcceleration(1500);
@@ -169,8 +175,8 @@ void egoShield::idleMode(void)
 
 void egoShield::playMode(void)
 {
-  stepper.setMaxVelocity(velocity);
-  stepper.setMaxAcceleration(acceleration);
+  stepper.setMaxVelocity(this->velocity);
+  stepper.setMaxAcceleration(this->acceleration);
   this->playPage(loopMode,brakeFlag,place);
   if(loopMode && place > endmove)
   {
@@ -275,7 +281,7 @@ void egoShield::recordMode(void)
   {
     if(!brakeFlag)//if we recorded without the feedbackloop (i.e. with movement of the application by hand)
     {
-      stepper.setup(PID,SIXTEEN,10,5,1.0,0.02,0.006,0);//reinitialize PID - unpause
+      stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//reinitialize PID - unpause
     }
     endmove = place-1;//set the endmove to the current position
     place = 0;//reset array counter

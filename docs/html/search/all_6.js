@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['pausemode',['pauseMode',['../classegoShield.html#a31a659ad3e360d49aba4bf745cac33b5',1,'egoShield']]],
-  ['pausepage',['pausePage',['../classegoShield.html#a5334f0d0a4b4a6f8c007f3ffc2536273',1,'egoShield']]],
-  ['place',['place',['../classegoShield.html#a2ff513beeb8b6c59dbabe0cbbbd112b4',1,'egoShield']]],
-  ['play',['play',['../classegoShield.html#a984e096db9f6765d4abe34c31a40f702',1,'egoShield']]],
-  ['playmode',['playMode',['../classegoShield.html#a10cbf5c0c839e203c35f1136d9d0c253',1,'egoShield']]],
-  ['playpage',['playPage',['../classegoShield.html#a33b4ceca8e8d87f5a1411380a4d37772',1,'egoShield']]],
-  ['pos',['pos',['../classegoShield.html#a86999afb201c0fd79acfa5fc199f2ce8',1,'egoShield']]]
+  ['idlemode',['idleMode',['../classegoShield.html#a52236933899d1aed8dfa7a713441b94a',1,'egoShield']]],
+  ['idlepage',['idlePage',['../classegoShield.html#a62452a902ac14c277d7d9b51e5e5a0e8',1,'egoShield']]],
+  ['inputs',['inputs',['../classegoShield.html#a5b2827b453ac78a53edcc90bc75115d4',1,'egoShield']]],
+  ['iterm',['iTerm',['../classegoShield.html#a49dc2d3220a28636978bce13ea5638bc',1,'egoShield']]]
 ];

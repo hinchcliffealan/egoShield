@@ -73,8 +73,6 @@
 * 	caused by the use of the code contained in this library ! 	
 *
 *	\par To do list
-*	- Make PID parameters available for the user
-*	- Make motor speed adjustable
 *	- Add comments in the .cpp
 *	- clean the code in .cpp
 *	- Add BT support
@@ -112,6 +110,17 @@
 #define RECBT A2
 #define BWBT A0
 #define CNT 50
+
+/** Full step definition*/
+#define FULL 1							
+/** Half step definition*/
+#define HALF 2							
+/** Quarter step definition*/
+#define QUARTER 4						
+/** Eighth step definition*/
+#define EIGHT 8							
+/** Sixteenth step definition*/	
+#define SIXTEEN 16				
 
 #define en_width 11
 #define en_height 9
@@ -176,8 +185,27 @@ public:
 	* @param[in]  	acc takes in the maximum acceleration in play mode.
 	*
 	* @param[in]  	vel takes in the maximum velocity in play mode.
+	*
+	* @param[in]  	uStep takes in the microstepping setting.
+	*
+	* @param[in]  	fTol takes in the fault tolerance for the PID in steps, i.e. how much error is allowed before correction.
+	*
+	* @param[in]  	fHys takes fault hysteresis in steps, i.e. when is the PID deactivated again.
+	*
+	* @param[in]  	P takes in the PID P term.
+	*
+	* @param[in]  	I takes in the PID I term.
+	*
+	* @param[in]  	D takes in the PID D term.
 	*/
-	void setup(uint16_t acc, uint16_t vel);
+	void egoShield::setup(uint16_t acc = 1500, 
+						  uint16_t vel = 1000, 
+						  uint8_t uStep = SIXTEEN, 
+						  uint16_t fTol = 10,
+						  uint16_t fHys = 5, 
+						  float P = 1.0, 
+						  float I = 0.02, 
+						  float D = 0.006);
 	/**
 	* @brief      	Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).
 	*/	
@@ -215,10 +243,22 @@ private:
 	uint8_t bw;
 	/** This variable holds the current set-point to the PID, either from manual control or during playback of the sequence */
 	float setPoint;
-
+	/** This variable holds the acceleration used during playback of the sequence */
 	uint16_t acceleration;
+	/** This variable holds the velocity used during playback of the sequence */
 	uint16_t velocity;
-
+	/** This variable holds the microstepping setting */
+	uint8_t microStepping; 
+	/** This variable holds the fault tolerance setting */
+	uint16_t faultTolerance;
+	/** This variable holds the fault hysteresis setting */
+	uint16_t faultHysteresis; 
+	/** This variable holds the PID P term */
+	float pTerm; 
+	/** This variable holds the PID I term */
+	float iTerm; 
+	/** This variable holds the PID D term */
+	float dTerm;
 	/**
 	* @brief      	Reads the four buttons and writes their value; no push, short push or long push, to global variables.
 	*/

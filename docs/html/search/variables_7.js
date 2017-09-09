@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['u8g2',['u8g2',['../classegoShield.html#adfbe1e4483d6c137bc522f3aebd8a2a7',1,'egoShield']]]
+  ['microstepping',['microStepping',['../classegoShield.html#a204606c1a1559082766fdfaa6f7bb80a',1,'egoShield']]]
 ];
