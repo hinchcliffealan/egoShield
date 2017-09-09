@@ -74,13 +74,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af572b93bc9f99e2e034d9cfed52afe3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#af572b93bc9f99e2e034d9cfed52afe3d">egoShield</a> (void)</td></tr>
 <tr class="memdesc:af572b93bc9f99e2e034d9cfed52afe3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="classegoShield.html">egoShield</a> class.  <a href="#af572b93bc9f99e2e034d9cfed52afe3d">More...</a><br /></td></tr>
 <tr class="separator:af572b93bc9f99e2e034d9cfed52afe3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a248952630690f1e05e3c05ac8ea21438"><td class="memItemLeft" align="right" valign="top"><a id="a248952630690f1e05e3c05ac8ea21438"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a248952630690f1e05e3c05ac8ea21438">setup</a> (void)</td></tr>
-<tr class="memdesc:a248952630690f1e05e3c05ac8ea21438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes buttons, OLED, uStepper and BT-module. <br /></td></tr>
-<tr class="separator:a248952630690f1e05e3c05ac8ea21438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41daa10d22816a36e664c0675ab219b4"><td class="memItemLeft" align="right" valign="top"><a id="a41daa10d22816a36e664c0675ab219b4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a41daa10d22816a36e664c0675ab219b4">loop</a> (void)</td></tr>
-<tr class="memdesc:a41daa10d22816a36e664c0675ab219b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause). <br /></td></tr>
+<tr class="memitem:a4272c38d25b781dfc373a9d30345a4c0"><td class="memItemLeft" align="right" valign="top"><a id="a4272c38d25b781dfc373a9d30345a4c0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a4272c38d25b781dfc373a9d30345a4c0">setup</a> (uint16_t acc, uint16_t vel)</td></tr>
+<tr class="memdesc:a4272c38d25b781dfc373a9d30345a4c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes buttons, OLED, uStepper and BT-module. <br /></td></tr>
+<tr class="separator:a4272c38d25b781dfc373a9d30345a4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41daa10d22816a36e664c0675ab219b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a41daa10d22816a36e664c0675ab219b4">loop</a> (void)</td></tr>
+<tr class="memdesc:a41daa10d22816a36e664c0675ab219b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).  <a href="#a41daa10d22816a36e664c0675ab219b4">More...</a><br /></td></tr>
 <tr class="separator:a41daa10d22816a36e664c0675ab219b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -99,13 +98,29 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a3c1c62fc91407711e53ad7166cf18fab"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a3c1c62fc91407711e53ad7166cf18fab">buttonState</a> (uint8_t button, uint8_t nmbr)</td></tr>
 <tr class="memdesc:a3c1c62fc91407711e53ad7166cf18fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the button state of the appropriate button.  <a href="#a3c1c62fc91407711e53ad7166cf18fab">More...</a><br /></td></tr>
 <tr class="separator:a3c1c62fc91407711e53ad7166cf18fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52236933899d1aed8dfa7a713441b94a"><td class="memItemLeft" align="right" valign="top"><a id="a52236933899d1aed8dfa7a713441b94a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a52236933899d1aed8dfa7a713441b94a">idleMode</a> (void)</td></tr>
+<tr class="memdesc:a52236933899d1aed8dfa7a713441b94a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the idle logic; page to show, what buttons to enable etc. <br /></td></tr>
+<tr class="separator:a52236933899d1aed8dfa7a713441b94a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10cbf5c0c839e203c35f1136d9d0c253"><td class="memItemLeft" align="right" valign="top"><a id="a10cbf5c0c839e203c35f1136d9d0c253"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a10cbf5c0c839e203c35f1136d9d0c253">playMode</a> (void)</td></tr>
+<tr class="memdesc:a10cbf5c0c839e203c35f1136d9d0c253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the play logic, showing play page and running the recorded sequence. <br /></td></tr>
+<tr class="separator:a10cbf5c0c839e203c35f1136d9d0c253"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dccc775a87134bf91cdf3c558013d01"><td class="memItemLeft" align="right" valign="top"><a id="a0dccc775a87134bf91cdf3c558013d01"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a0dccc775a87134bf91cdf3c558013d01">recordMode</a> (void)</td></tr>
+<tr class="memdesc:a0dccc775a87134bf91cdf3c558013d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the record logic, showing the record page and recording positions from user input. <br /></td></tr>
+<tr class="separator:a0dccc775a87134bf91cdf3c558013d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31a659ad3e360d49aba4bf745cac33b5"><td class="memItemLeft" align="right" valign="top"><a id="a31a659ad3e360d49aba4bf745cac33b5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a31a659ad3e360d49aba4bf745cac33b5">pauseMode</a> (void)</td></tr>
+<tr class="memdesc:a31a659ad3e360d49aba4bf745cac33b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the pause logic, showing the pause page and pausing the playing of a sequence. <br /></td></tr>
+<tr class="separator:a31a659ad3e360d49aba4bf745cac33b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a848be14c20460a86b9dab62435119b1d"><td class="memItemLeft" align="right" valign="top"><a id="a848be14c20460a86b9dab62435119b1d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a848be14c20460a86b9dab62435119b1d">fastForward</a> (void)</td></tr>
 <tr class="memdesc:a848be14c20460a86b9dab62435119b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the fast forward logic for driving the stepper motor manually with the pushbuttons. <br /></td></tr>
 <tr class="separator:a848be14c20460a86b9dab62435119b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a159d585b78cd02899a0f5dc6c790518e"><td class="memItemLeft" align="right" valign="top"><a id="a159d585b78cd02899a0f5dc6c790518e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a159d585b78cd02899a0f5dc6c790518e">fastBackward</a> (void)</td></tr>
-<tr class="memdesc:a159d585b78cd02899a0f5dc6c790518e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the fast forward logic for driving the stepper motor manually with the pushbuttons. <br /></td></tr>
+<tr class="memdesc:a159d585b78cd02899a0f5dc6c790518e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the fast backward logic for driving the stepper motor manually with the pushbuttons. <br /></td></tr>
 <tr class="separator:a159d585b78cd02899a0f5dc6c790518e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7161e69350c3fe944193b715336a9c7"><td class="memItemLeft" align="right" valign="top"><a id="ab7161e69350c3fe944193b715336a9c7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#ab7161e69350c3fe944193b715336a9c7">startPage</a> (void)</td></tr>
@@ -144,18 +159,26 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a4194146980bf4aea98893a54e0b9aa14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a01977ccd17e67fe908c6f2c4831eaf"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a3a01977ccd17e67fe908c6f2c4831eaf">state</a></td></tr>
 <tr class="separator:a3a01977ccd17e67fe908c6f2c4831eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02211dc798e652e4e0c722c3852a32b6"><td class="memItemLeft" align="right" valign="top">uint8_t rec uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a02211dc798e652e4e0c722c3852a32b6">play</a></td></tr>
-<tr class="separator:a02211dc798e652e4e0c722c3852a32b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35bc04ba2d67492023e0a2f4b8f89927"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a35bc04ba2d67492023e0a2f4b8f89927">rec</a></td></tr>
+<tr class="separator:a35bc04ba2d67492023e0a2f4b8f89927"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a984e096db9f6765d4abe34c31a40f702"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a984e096db9f6765d4abe34c31a40f702">play</a></td></tr>
+<tr class="separator:a984e096db9f6765d4abe34c31a40f702"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea67bad55524f6c7fe76b551119c59b9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#aea67bad55524f6c7fe76b551119c59b9">fw</a></td></tr>
 <tr class="separator:aea67bad55524f6c7fe76b551119c59b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac07ef5356ff6ffd0d7813eeeb9961622"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#ac07ef5356ff6ffd0d7813eeeb9961622">bw</a></td></tr>
 <tr class="separator:ac07ef5356ff6ffd0d7813eeeb9961622"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d6b27161706494825b424eef65fad86"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classegoShield.html#a3d6b27161706494825b424eef65fad86">setPoint</a></td></tr>
 <tr class="separator:a3d6b27161706494825b424eef65fad86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2b15f319431f60f3c37841c55c5396"><td class="memItemLeft" align="right" valign="top"><a id="aba2b15f319431f60f3c37841c55c5396"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>acceleration</b></td></tr>
+<tr class="separator:aba2b15f319431f60f3c37841c55c5396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bad679522cc978e447fa3c89a6a006d"><td class="memItemLeft" align="right" valign="top"><a id="a4bad679522cc978e447fa3c89a6a006d"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>velocity</b></td></tr>
+<tr class="separator:a4bad679522cc978e447fa3c89a6a006d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00163">163</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00164">164</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af572b93bc9f99e2e034d9cfed52afe3d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af572b93bc9f99e2e034d9cfed52afe3d">&#9670;&nbsp;</a></span>egoShield()</h2>
@@ -229,7 +252,7 @@ Private Attributes</h2></td></tr>
 <dd>
 2 - long push detected. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00288">288</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00312">312</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -276,7 +299,36 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00358">358</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00382">382</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a41daa10d22816a36e664c0675ab219b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41daa10d22816a36e664c0675ab219b4">&#9670;&nbsp;</a></span>loop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void egoShield::loop </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">acc</td><td>takes in the maximum acceleration in play mode.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vel</td><td>takes in the maximum velocity in play mode. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00092">92</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -330,7 +382,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00497">497</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00521">521</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -384,7 +436,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00454">454</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00478">478</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -445,7 +497,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00400">400</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8cpp_source.html#l00424">424</a> of file <a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a>.</p>
 
 </div>
 </div>
@@ -471,7 +523,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable indicates if motor brakes are enabled </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00194">194</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00199">199</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +548,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable holds the current state of the backward button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00210">210</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00215">215</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +573,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable holds the final step number in the recorded sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00190">190</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00195">195</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -546,7 +598,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable holds the current state of the forward button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00208">208</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00213">213</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -571,7 +623,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This array indicates whether one of the buttons have experienced a long duration push </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00200">200</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00205">205</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -596,7 +648,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable indicates whether we are in loop mode during playback </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00198">198</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00203">203</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -621,12 +673,12 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable holds the step number in the recorded sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00188">188</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00193">193</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
-<a id="a02211dc798e652e4e0c722c3852a32b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02211dc798e652e4e0c722c3852a32b6">&#9670;&nbsp;</a></span>play</h2>
+<a id="a984e096db9f6765d4abe34c31a40f702"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a984e096db9f6765d4abe34c31a40f702">&#9670;&nbsp;</a></span>play</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -635,7 +687,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t rec uint8_t egoShield::play</td>
+          <td class="memname">uint8_t egoShield::play</td>
         </tr>
       </table>
   </td>
@@ -644,9 +696,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This variable holds the current state of the record button, which tells whether no, short or long push has been detected This variable holds the current state of the play button, which tells whether no, short or long push has been detected </p>
+<p>This variable holds the current state of the play button, which tells whether no, short or long push has been detected </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00206">206</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00211">211</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -671,7 +723,32 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This array holds the encoder value at the recorded positions </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00192">192</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00197">197</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+
+</div>
+</div>
+<a id="a35bc04ba2d67492023e0a2f4b8f89927"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35bc04ba2d67492023e0a2f4b8f89927">&#9670;&nbsp;</a></span>rec</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t egoShield::rec</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This variable holds the current state of the record button, which tells whether no, short or long push has been detected </p>
+
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00209">209</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -696,7 +773,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable indicates whether we are recording </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00196">196</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00201">201</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -721,7 +798,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable holds the current set-point to the PID, either from manual control or during playback of the sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00212">212</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00217">217</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -746,7 +823,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This variable holds the current state of the program, which tells whether the program is in idle, play, record or pause mode </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00202">202</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00207">207</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
@@ -771,18 +848,18 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Creates an u8g2 (OLED) instance </p>
 
-<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00186">186</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="egoShield_8h_source.html#l00191">191</a> of file <a class="el" href="egoShield_8h_source.html">egoShield.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Onedrive/Stuff/Projekter/uStepper/egoshield/egocode/library/egoShield/src/<a class="el" href="egoShield_8h_source.html">egoShield.h</a></li>
-<li>D:/Onedrive/Stuff/Projekter/uStepper/egoshield/egocode/library/egoShield/src/<a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a></li>
+<li>C:/Users/Mogens/Documents/Git/egoShield/src/<a class="el" href="egoShield_8h_source.html">egoShield.h</a></li>
+<li>C:/Users/Mogens/Documents/Git/egoShield/src/<a class="el" href="egoShield_8cpp_source.html">egoShield.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 4 2017 19:14:35 for egoShield by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Sep 9 2017 07:36:05 for egoShield by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

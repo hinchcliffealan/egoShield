@@ -77,6 +77,7 @@
 *	- Make motor speed adjustable
 *	- Add comments in the .cpp
 *	- clean the code in .cpp
+*	- Add BT support
 *
 *	\par Known Bugs
 *	- No known bugs
@@ -164,22 +165,26 @@ class egoShield
 {
 public:
 	/**
-	 * @brief      Constructor of egoShield class
-	 *
-	 *             This is the constructor of the egoShield class. No arguments are present in the constructor.
-	 */
+	* @brief      Constructor of egoShield class
+	*
+	*             This is the constructor of the egoShield class. No arguments are present in the constructor.
+	*/
 	egoShield(void);
 	/**
-	 * @brief      	Initializes buttons, OLED, uStepper and BT-module.
-	 */
-	void setup(void);
+	* @brief      	Initializes buttons, OLED, uStepper and BT-module.
+	*/
+	void setup(uint16_t acc, uint16_t vel);
 	/**
-	 * @brief      	Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).
-	 */	
+	* @brief      	Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).
+	*
+	* @param[in]  	acc takes in the maximum acceleration in play mode.
+	*
+	* @param[in]  	vel takes in the maximum velocity in play mode.
+	*/	
 	void loop(void);
 	/**
-	 * @brief      	Creates an uStepper instance.
-	 */
+	* @brief      	Creates an uStepper instance.
+	*/
 	uStepper stepper;
 private:
 	/**Creates an u8g2 (OLED) instance */
@@ -201,7 +206,7 @@ private:
 	/** This variable holds the current state of the program, which tells whether the program is in idle, play, record or pause mode */
 	char state;
 	/** This variable holds the current state of the record button, which tells whether no, short or long push has been detected */
-	uint8_t rec
+	uint8_t rec;
 	/** This variable holds the current state of the play button, which tells whether no, short or long push has been detected */
 	uint8_t play;
 	/** This variable holds the current state of the forward button, which tells whether no, short or long push has been detected */
@@ -210,6 +215,9 @@ private:
 	uint8_t bw;
 	/** This variable holds the current set-point to the PID, either from manual control or during playback of the sequence */
 	float setPoint;
+
+	uint16_t acceleration;
+	uint16_t velocity;
 
 	/**
 	* @brief      	Reads the four buttons and writes their value; no push, short push or long push, to global variables.
@@ -229,11 +237,27 @@ private:
 	*/
 	uint8_t buttonState(uint8_t button, uint8_t nmbr);
 	/**
+	* @brief      	Holds the idle logic; page to show, what buttons to enable etc.
+	*/
+	void idleMode(void);
+	/**
+	* @brief      	Holds the play logic, showing play page and running the recorded sequence.
+	*/
+	void playMode(void);
+	/**
+	* @brief      	Holds the record logic, showing the record page and recording positions from user input.
+	*/
+	void recordMode(void);
+	/**
+	* @brief      	Holds the pause logic, showing the pause page and pausing the playing of a sequence.
+	*/
+	void pauseMode(void);
+	/**
 	* @brief      	Holds the fast forward logic for driving the stepper motor manually with the pushbuttons.
 	*/
 	void fastForward(void);
 	/**
-	* @brief      	Holds the fast forward logic for driving the stepper motor manually with the pushbuttons.
+	* @brief      	Holds the fast backward logic for driving the stepper motor manually with the pushbuttons.
 	*/
 	void fastBackward(void);
 	/**

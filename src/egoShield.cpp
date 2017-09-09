@@ -26,7 +26,7 @@
 *                                                                                           *
 *   void setup()                                                                            *
 *   {                                                                                       *
-*     ego.setup();                                                                          *
+*     ego.setup(2000,1000);//Acceleration and Velocity are arguments for the setup function *
 *   }                                                                                       *
 *                                                                                           *
 *   void loop()                                                                             *
@@ -68,10 +68,11 @@ egoShield::egoShield(void)
   u8g2 = new U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI(U8G2_R0, /* clock=*/ 11, /* data=*/ 9, /* cs=*/ U8X8_PIN_NONE, /* dc=*/ 2, /* reset=*/ 10);
 }
 
-void egoShield::setup(void)
+void egoShield::setup(uint16_t acc, uint16_t vel)
 {
-  stepper.setup(PID,SIXTEEN,20,10,1.0,1.0,0.006);
-  stepper.encoder.setHome();//set new home position
+  stepper.setup(PID,SIXTEEN,20,10,1.0,1.0,0.006,1);
+  acceleration = acc;
+  velocity = vel;
   //Serial.begin(9600);
   pinMode(FWBT ,INPUT);
   pinMode(PLBT ,INPUT);
@@ -82,33 +83,150 @@ void egoShield::setup(void)
   digitalWrite(RECBT ,HIGH);//pull-up
   digitalWrite(BWBT ,HIGH);//pull-up
   setPoint = stepper.encoder.getAngleMoved();//set manual move setpoint to current position
-  u8g2->begin();
-  this->startPage();
-  delay(2000);
-  state = 'a';
+  u8g2->begin();//start display
+  this->startPage();//show startpage
+  delay(2000);//for 2 seconds
+  state = 'a';//start in idle
 }
 
 void egoShield::loop(void)
 {
-  this->inputs();//check inputs
+  this->inputs();//check buttons
   switch (state)
   {
-    case 'a'://if we are in stop
-    this->idlePage(brakeFlag,setPoint);
-    if(play == 2)//if play/stop/pause is pressed for long time, invert the brake mode
+    case 'a'://if we are in idle
+    idleMode();
+    break;
+    
+    case 'b'://if we are in play
+    playMode();
+    break;
+    
+    case 'c'://if we are in record
+    recordMode();
+    break;
+  
+    case 'd'://in pause
+    pauseMode();
+    break;
+  }
+}
+
+void egoShield::idleMode(void)
+{
+  this->idlePage(brakeFlag,setPoint);
+  if(play == 2)//if play/stop/pause is pressed for long time, invert the brake mode
+  {
+    if(brakeFlag == 0)
     {
-      if(brakeFlag == 0)
+      brakeFlag = 1;
+      stepper.hardStop(HARD);
+    }
+    else
+    {
+      brakeFlag = 0;
+      stepper.hardStop(SOFT);
+    }
+  }
+  else if(fw == 1)//if manual forward signal
+  {
+    setPoint +=5;
+    stepper.moveToAngle(setPoint,brakeFlag);//move 5deg
+    //Serial.println("FW");
+  }
+  else if(fw == 2)//if manual forward signal long
+  {
+    this->fastForward();
+  }
+  else if(bw == 1)//if manual backward signal
+  {
+    setPoint -=5;
+    stepper.moveToAngle(setPoint,brakeFlag);
+    //Serial.println("BW");
+  }
+  else if(bw == 2)//if manual backward signal long
+  {
+    this->fastBackward();
+  }
+  else if(rec == 2)
+  {
+    if(!brakeFlag)//make it possible to move stuff by hand
+    {
+       stepper.setup(NORMAL,SIXTEEN,10,5,1.0,0.02,0.006,0);//pause PID to allow manual movement
+       stepper.softStop(SOFT);
+       stepper.setMaxVelocity(1000);
+       stepper.setMaxAcceleration(1500);
+    }
+    state = 'c';
+    //Serial.println("Record mode");
+  }
+  else if(play == 1)//we want to play sequence when doing a short press
+  {
+    state = 'b';
+    //Serial.println("Play mode");
+  }
+}
+
+void egoShield::playMode(void)
+{
+  stepper.setMaxVelocity(velocity);
+  stepper.setMaxAcceleration(acceleration);
+  this->playPage(loopMode,brakeFlag,place);
+  if(loopMode && place > endmove)
+  {
+    place=0;
+  }
+  else if(place > endmove)//If we are at the end move
+  {
+    place = 0;//reset array counter
+    state = 'a';
+    setPoint = pos[endmove];
+    //Serial.println("Stop mode");
+  }
+  else
+  {
+    stepper.moveToAngle(pos[place],brakeFlag);
+    //Serial.print("Moving to position ");//Print where we are going for convenience
+    //Serial.println(place);
+    place++;//increment array counter
+    while(stepper.getMotorState())
+    {
+      this->inputs();//check inputs
+      if(play == 2)//if play/stop/pause is pressed again for long time, stop
       {
-        brakeFlag = 1;
-        stepper.hardStop(HARD);
+        place = 0;//reset array counter
+        loopMode = 0;
+        state = 'a';
+        setPoint = stepper.encoder.getAngleMoved();
+        //Serial.println("Stop mode");
       }
-      else
+      else if(rec == 1)
       {
-        brakeFlag = 0;
-        stepper.hardStop(SOFT);
+        state = 'd';//pause
+        //Serial.println("Pause mode");
+      }
+      else if(fw == 2)//loop mode start
+      {
+        loopMode = 1;
+        //Serial.println("Loop mode on");
+      }
+      else if(bw == 2)//loop mode stop
+      {
+        loopMode = 0;
+        //Serial.println("Loop mode off");
       }
     }
-    else if(fw == 1)//if manual forward signal
+  }  
+  stepper.setMaxVelocity(1000);
+  stepper.setMaxAcceleration(1500);
+}
+
+void egoShield::recordMode(void)
+{
+  this->recordPage(brakeFlag,0,place,stepper.encoder.getAngleMoved());
+  if(brakeFlag)
+  {
+    if(fw == 1)//if manual forward signal
     {
       setPoint +=5;
       stepper.moveToAngle(setPoint,brakeFlag);//move 5deg
@@ -124,159 +242,65 @@ void egoShield::loop(void)
       stepper.moveToAngle(setPoint,brakeFlag);
       //Serial.println("BW");
     }
-    else if(bw == 2)//if manual backward signal long
+    else if(bw == 2)//if manual forward signal long
     {
       this->fastBackward();
     }
-    else if(rec == 2)
-    {
-      if(!brakeFlag)//make it possible to move stuff by hand
-      {
-         stepper.setup(NORMAL,SIXTEEN,10,5,1.0,0.02,0.006,0);//pause PID to allow manual movement
-         stepper.softStop(SOFT);
-         stepper.setMaxVelocity(1000);
-         stepper.setMaxAcceleration(1500);
-      }
-      state = 'c';
-      //Serial.println("Record mode");
-    }
-    else if(play == 1)//we want to play sequence when doing a short press
-    {
-      state = 'b';
-      //Serial.println("Play mode");
-    }
-    break;
-    
-    case 'b'://if we are in play
-    this->playPage(loopMode,brakeFlag,place);
-    if(loopMode && place > endmove)
-    {
-      place=0;
-    }
-    else if(place > endmove)//If we are at the end move
-    {
-      place = 0;//reset array counter
-      state = 'a';
-      setPoint = pos[endmove];
-      //Serial.println("Stop mode");
-    }
-    else
-    {
-      stepper.moveToAngle(pos[place],brakeFlag);
-      //Serial.print("Moving to position ");//Print where we are going for convenience
-      //Serial.println(place);
-      place++;//increment array counter
-      while(stepper.getMotorState())
-      {
-        this->inputs();//check inputs
-        if(play == 2)//if play/stop/pause is pressed again for long time, stop
-        {
-          place = 0;//reset array counter
-          loopMode = 0;
-          state = 'a';
-          setPoint = stepper.encoder.getAngleMoved();
-          //Serial.println("Stop mode");
-        }
-        else if(rec == 1)
-        {
-          state = 'd';//pause
-          //Serial.println("Pause mode");
-        }
-        else if(fw == 2)//loop mode start
-        {
-          loopMode = 1;
-          //Serial.println("Loop mode on");
-        }
-        else if(bw == 2)//loop mode stop
-        {
-          loopMode = 0;
-          //Serial.println("Loop mode off");
-        }
-      }
-    }
-    break;
-    
-    case 'c'://if we are in record
-    this->recordPage(brakeFlag,0,place,stepper.encoder.getAngleMoved());
-    if(brakeFlag)
-    {
-      if(fw == 1)//if manual forward signal
-      {
-        setPoint +=5;
-        stepper.moveToAngle(setPoint,brakeFlag);//move 5deg
-        //Serial.println("FW");
-      }
-      else if(fw == 2)//if manual forward signal long
-      {
-        this->fastForward();
-      }
-      else if(bw == 1)//if manual backward signal
-      {
-        setPoint -=5;
-        stepper.moveToAngle(setPoint,brakeFlag);
-        //Serial.println("BW");
-      }
-      else if(bw == 2)//if manual forward signal long
-      {
-        this->fastBackward();
-      }
-    }
-    if(rec == 1)//record position
-    {      
-      if(record == 0)//If we were not recording before
-      {
-        stepper.encoder.setHome();//Set current position as home
-        setPoint = 0;
-        place = 0;//Reset the array counter
-        record = 1;//Record flag
-      }
-      this->recordPage(brakeFlag,1,place,stepper.encoder.getAngleMoved());
-      delay(500);
-      if(record == 1)//If we have initialized recording
-      {
-        //Serial.print("Position ");//Print position number for convenience
-        //Serial.print(place);
-        //Serial.println(" recorded");
-        pos[place] = stepper.encoder.getAngleMoved();//Save current position
-        place++;//Increment array counter
-        if(place>CNT)
-        {
-          place=0;
-        }
-      }
-    }
-    else if(play == 2)//stop pressed
-    {
-      if(!brakeFlag)//if we recorded without the feedbackloop (i.e. with movement of the application by hand)
-      {
-        stepper.setup(PID,SIXTEEN,10,5,1.0,0.02,0.006,0);//reinitialize PID - unpause
-      }
-      endmove = place-1;//set the endmove to the current position
-      place = 0;//reset array counter
-      record = 0;//reset record flag
-      state = 'a';//stop state
-      setPoint = stepper.encoder.getAngleMoved();
-      //Serial.println("Stop mode");
-    }
-    break;
-  
-    case 'd'://in pause
-    this->pausePage(loopMode,brakeFlag,place);
-    if(play == 1)//unpause
-    {
-      state = 'b';
-      //Serial.println("Play mode");
-    }
-    else if(play == 2)//stop
-    {
-      state = 'a';
-      setPoint = stepper.encoder.getAngleMoved();
-      //Serial.println("Stop mode");
-    }
-    break;
   }
+  if(rec == 1)//record position
+  {      
+    if(record == 0)//If we were not recording before
+    {
+      stepper.encoder.setHome();//Set current position as home
+      setPoint = 0;
+      place = 0;//Reset the array counter
+      record = 1;//Record flag
+    }
+    this->recordPage(brakeFlag,1,place,stepper.encoder.getAngleMoved());
+    delay(500);
+    if(record == 1)//If we have initialized recording
+    {
+      //Serial.print("Position ");//Print position number for convenience
+      //Serial.print(place);
+      //Serial.println(" recorded");
+      pos[place] = stepper.encoder.getAngleMoved();//Save current position
+      place++;//Increment array counter
+      if(place>CNT)
+      {
+        place=0;
+      }
+    }
+  }
+  else if(play == 2)//stop pressed
+  {
+    if(!brakeFlag)//if we recorded without the feedbackloop (i.e. with movement of the application by hand)
+    {
+      stepper.setup(PID,SIXTEEN,10,5,1.0,0.02,0.006,0);//reinitialize PID - unpause
+    }
+    endmove = place-1;//set the endmove to the current position
+    place = 0;//reset array counter
+    record = 0;//reset record flag
+    state = 'a';//stop state
+    setPoint = stepper.encoder.getAngleMoved();
+    //Serial.println("Stop mode");
+  }  
 }
 
+void egoShield::pauseMode(void)
+{
+  this->pausePage(loopMode,brakeFlag,place);
+  if(play == 1)//unpause
+  {
+    state = 'b';
+    //Serial.println("Play mode");
+  }
+  else if(play == 2)//stop
+  {
+    state = 'a';
+    setPoint = stepper.encoder.getAngleMoved();
+    //Serial.println("Stop mode");
+  }  
+}
 void egoShield::inputs(void)
 {
   fw = this->buttonState(FWBT,0);
