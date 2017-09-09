@@ -37,7 +37,7 @@
 *	\image html functional.png
 *	
 *	- State is indicated at the top left corner of the OLED display
-*	- Brake mode is indicated in the top middle of the OLED display
+*	- PID mode is indicated in the top middle of the OLED display
 *	- Loop mode is indicated in the top right corner of the OLED display
 *	- The button functionalities are indicated by a bar in the bottom of the OLED display
 * 
@@ -223,8 +223,8 @@ private:
 	uint8_t endmove;
 	/** This array holds the encoder value at the recorded positions */
 	float pos[CNT];
-	/** This variable indicates if motor brakes are enabled */
-	bool brakeFlag;
+	/** This variable indicates if PID is enabled */
+	bool pidFlag;
 	/** This variable indicates whether we are recording */
 	bool record;
 	/** This variable indicates whether we are in loop mode during playback */
@@ -307,15 +307,15 @@ private:
 	/**
 	* @brief      	Holds the code for the idle page of the OLED.
 	*
-	* @param[in]  	brakeMode tells if the display should show brakes or no brakes.
+	* @param[in]  	pidMode tells if the display should show PID ON or PID OFF.
 	*
 	* @param[in]  	pos is the encoder position to be displayed.
 	*/
-	void idlePage(bool brakeMode, float pos);
+	void idlePage(bool pidMode, float pos);
 	/**
 	* @brief      	Holds the code for the record page of the OLED.
 	*
-	* @param[in]  	brakeMode tells if the display should show brakes or no brakes.
+	* @param[in]  	pidMode tells if the display should show PID ON or PID OFF.
 	* 
 	* @param[in]  	recorded tells if a step has been recorded.
 	*
@@ -323,26 +323,26 @@ private:
 	*
 	* @param[in]  	pos is the encoder position to be displayed.
 	*/
-	void recordPage(bool brakeMode, bool recorded, uint8_t index, float pos);
+	void recordPage(bool pidMode, bool recorded, uint8_t index, float pos);
 	/**
 	* @brief      	Holds the code for the play page of the OLED.
 	*
 	* @param[in]  	loopMode tells if the display should show loop symbol.
 	*
-	* @param[in]  	brakeMode tells if the display should show brakes or no brakes.
+	* @param[in]  	pidMode tells if the display should show PID ON or PID OFF.
 	*
 	* @param[in]  	index tells which step we are at.
 	*/
-	void playPage(bool loopMode, bool brakeMode, uint8_t index);
+	void playPage(bool loopMode, bool pidMode, uint8_t index);
 	/**
 	* @brief      	Holds the code for the pause page of the OLED.
 	*
 	* @param[in]  	loopMode tells if the display should show loop symbol.
 	*
-	* @param[in]  	brakeMode tells if the display should show brakes or no brakes.
+	* @param[in]  	pidMode tells if the display should show PID ON or PID OFF.
 	*
 	* @param[in]  	index tells which step we are at.
 	*/
-	void pausePage(bool loopMode, bool brakeMode, uint8_t index);
+	void pausePage(bool loopMode, bool pidMode, uint8_t index);
 };
 #endif

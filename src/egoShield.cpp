@@ -79,6 +79,8 @@ void egoShield::setup(uint16_t acc, uint16_t vel, uint8_t uStep, uint16_t fTol, 
   this->iTerm = I;
   this->dTerm = D;
   stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,1);
+  stepper.encoder.setHome();
+  pidFlag = 1;//enable PID
   //Serial.begin(9600);
   pinMode(FWBT ,INPUT);
   pinMode(PLBT ,INPUT);
@@ -120,25 +122,30 @@ void egoShield::loop(void)
 
 void egoShield::idleMode(void)
 {
-  this->idlePage(brakeFlag,setPoint);
-  if(play == 2)//if play/stop/pause is pressed for long time, invert the brake mode
+  this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
+  if(play == 2)//if play/stop/pause is pressed for long time, invert the pid mode
   {
-    if(brakeFlag == 0)
+    if(pidFlag == 0)
     {
-      brakeFlag = 1;
-      stepper.hardStop(HARD);
+      pidFlag = 1;
+      stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//pause PID to allow manual movement
     }
     else
     {
-      brakeFlag = 0;
+      pidFlag = 0;
+      stepper.setup(NORMAL,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//pause PID to allow manual movement
       stepper.hardStop(SOFT);
     }
   }
   else if(fw == 1)//if manual forward signal
   {
+    setPoint = stepper.encoder.getAngleMoved();
     setPoint +=5;
-    stepper.moveToAngle(setPoint,brakeFlag);//move 5deg
-    //Serial.println("FW");
+    stepper.moveToAngle(setPoint,0);//move 5deg
+    while(stepper.getMotorState())
+    {
+      delay(1);
+    }
   }
   else if(fw == 2)//if manual forward signal long
   {
@@ -146,9 +153,13 @@ void egoShield::idleMode(void)
   }
   else if(bw == 1)//if manual backward signal
   {
+    setPoint = stepper.encoder.getAngleMoved();
     setPoint -=5;
-    stepper.moveToAngle(setPoint,brakeFlag);
-    //Serial.println("BW");
+    stepper.moveToAngle(setPoint,0);
+    while(stepper.getMotorState())
+    {
+      delay(1);
+    }
   }
   else if(bw == 2)//if manual backward signal long
   {
@@ -156,20 +167,11 @@ void egoShield::idleMode(void)
   }
   else if(rec == 2)
   {
-    if(!brakeFlag)//make it possible to move stuff by hand
-    {
-       stepper.setup(NORMAL,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//pause PID to allow manual movement
-       stepper.softStop(SOFT);
-       stepper.setMaxVelocity(1000);
-       stepper.setMaxAcceleration(1500);
-    }
     state = 'c';
-    //Serial.println("Record mode");
   }
   else if(play == 1)//we want to play sequence when doing a short press
   {
     state = 'b';
-    //Serial.println("Play mode");
   }
 }
 
@@ -177,7 +179,7 @@ void egoShield::playMode(void)
 {
   stepper.setMaxVelocity(this->velocity);
   stepper.setMaxAcceleration(this->acceleration);
-  this->playPage(loopMode,brakeFlag,place);
+  this->playPage(loopMode,pidFlag,place);
   if(loopMode && place > endmove)
   {
     place=0;
@@ -187,13 +189,10 @@ void egoShield::playMode(void)
     place = 0;//reset array counter
     state = 'a';
     setPoint = pos[endmove];
-    //Serial.println("Stop mode");
   }
   else
   {
-    stepper.moveToAngle(pos[place],brakeFlag);
-    //Serial.print("Moving to position ");//Print where we are going for convenience
-    //Serial.println(place);
+    stepper.moveToAngle(pos[place],0);
     place++;//increment array counter
     while(stepper.getMotorState())
     {
@@ -204,22 +203,18 @@ void egoShield::playMode(void)
         loopMode = 0;
         state = 'a';
         setPoint = stepper.encoder.getAngleMoved();
-        //Serial.println("Stop mode");
       }
       else if(rec == 1)
       {
         state = 'd';//pause
-        //Serial.println("Pause mode");
       }
       else if(fw == 2)//loop mode start
       {
         loopMode = 1;
-        //Serial.println("Loop mode on");
       }
       else if(bw == 2)//loop mode stop
       {
         loopMode = 0;
-        //Serial.println("Loop mode off");
       }
     }
   }  
@@ -229,14 +224,18 @@ void egoShield::playMode(void)
 
 void egoShield::recordMode(void)
 {
-  this->recordPage(brakeFlag,0,place,stepper.encoder.getAngleMoved());
-  if(brakeFlag)
-  {
+  this->recordPage(pidFlag,0,place,stepper.encoder.getAngleMoved());
+  //if(pidFlag)
+  //{
     if(fw == 1)//if manual forward signal
     {
+      setPoint = stepper.encoder.getAngleMoved();
       setPoint +=5;
-      stepper.moveToAngle(setPoint,brakeFlag);//move 5deg
-      //Serial.println("FW");
+      stepper.moveToAngle(setPoint,0);//move 5deg
+      while(stepper.getMotorState())
+      {
+        delay(1);
+      }
     }
     else if(fw == 2)//if manual forward signal long
     {
@@ -244,15 +243,19 @@ void egoShield::recordMode(void)
     }
     else if(bw == 1)//if manual backward signal
     {
+      setPoint = stepper.encoder.getAngleMoved();
       setPoint -=5;
-      stepper.moveToAngle(setPoint,brakeFlag);
-      //Serial.println("BW");
+      stepper.moveToAngle(setPoint,0);
+      while(stepper.getMotorState())
+      {
+        delay(1);
+      }
     }
     else if(bw == 2)//if manual forward signal long
     {
       this->fastBackward();
     }
-  }
+  //}
   if(rec == 1)//record position
   {      
     if(record == 0)//If we were not recording before
@@ -262,13 +265,10 @@ void egoShield::recordMode(void)
       place = 0;//Reset the array counter
       record = 1;//Record flag
     }
-    this->recordPage(brakeFlag,1,place,stepper.encoder.getAngleMoved());
+    this->recordPage(pidFlag,1,place,stepper.encoder.getAngleMoved());
     delay(500);
     if(record == 1)//If we have initialized recording
     {
-      //Serial.print("Position ");//Print position number for convenience
-      //Serial.print(place);
-      //Serial.println(" recorded");
       pos[place] = stepper.encoder.getAngleMoved();//Save current position
       place++;//Increment array counter
       if(place>CNT)
@@ -279,32 +279,25 @@ void egoShield::recordMode(void)
   }
   else if(play == 2)//stop pressed
   {
-    if(!brakeFlag)//if we recorded without the feedbackloop (i.e. with movement of the application by hand)
-    {
-      stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//reinitialize PID - unpause
-    }
     endmove = place-1;//set the endmove to the current position
     place = 0;//reset array counter
     record = 0;//reset record flag
     state = 'a';//stop state
     setPoint = stepper.encoder.getAngleMoved();
-    //Serial.println("Stop mode");
   }  
 }
 
 void egoShield::pauseMode(void)
 {
-  this->pausePage(loopMode,brakeFlag,place);
+  this->pausePage(loopMode,pidFlag,place);
   if(play == 1)//unpause
   {
     state = 'b';
-    //Serial.println("Play mode");
   }
   else if(play == 2)//stop
   {
     state = 'a';
     setPoint = stepper.encoder.getAngleMoved();
-    //Serial.println("Stop mode");
   }  
 }
 void egoShield::inputs(void)
@@ -345,36 +338,36 @@ uint8_t egoShield::buttonState(uint8_t button, uint8_t nmbr)
 
 void egoShield::fastForward(void)
 {
+  setPoint = stepper.encoder.getAngleMoved();
   setPoint +=10;
-  stepper.moveToAngle(setPoint,brakeFlag);
+  stepper.moveToAngle(setPoint,0);
   while(digitalRead(FWBT)==0)
   {
     setPoint +=10;
-    stepper.moveToAngle(setPoint,brakeFlag);
-    this->idlePage(brakeFlag,stepper.encoder.getAngleMoved());
+    stepper.moveToAngle(setPoint,0);
+    this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
   }    
   while(stepper.getMotorState())
   {
     delay(1);
   }
-  stepper.hardStop(brakeFlag);
 }
 
 void egoShield::fastBackward(void)
 {
+  setPoint = stepper.encoder.getAngleMoved();
   setPoint -=10;
-  stepper.moveToAngle(setPoint,brakeFlag);
+  stepper.moveToAngle(setPoint,0);
   while(digitalRead(BWBT)==0)
   {
     setPoint -=10;
-    stepper.moveToAngle(setPoint,brakeFlag);
-    this->idlePage(brakeFlag,stepper.encoder.getAngleMoved());
+    stepper.moveToAngle(setPoint,0);
+    this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
   }  
   while(stepper.getMotorState())
   {
     delay(1);
   }
-  stepper.hardStop(brakeFlag);
 }
 
 void egoShield::startPage(void)
@@ -385,7 +378,7 @@ void egoShield::startPage(void)
   } while ( u8g2->nextPage() );
 }
 
-void egoShield::idlePage(bool brakeMode, float pos)
+void egoShield::idlePage(bool pidMode, float pos)
 {
   char buf[16];
   String sBuf;
@@ -409,13 +402,13 @@ void egoShield::idlePage(bool brakeMode, float pos)
 
     //Mode
     u8g2->drawStr(2,10,"Idle");
-    if(brakeMode)
+    if(pidMode)
     {
-      u8g2->drawStr(45,10,"Brake");
+      u8g2->drawStr(45,10,"PID ON");
     }
     else
     {
-      u8g2->drawStr(45,10,"No Brake");
+      u8g2->drawStr(45,10,"PID OFF");
     }
     u8g2->setFontMode(1);
     u8g2->setDrawColor(1);
@@ -427,7 +420,7 @@ void egoShield::idlePage(bool brakeMode, float pos)
   } while ( u8g2->nextPage() );  
 }
 
-void egoShield::recordPage(bool brakeMode, bool recorded, uint8_t index, float pos)
+void egoShield::recordPage(bool pidMode, bool recorded, uint8_t index, float pos)
 {
   char buf[22];//char array buffer
   String sBuf;
@@ -441,24 +434,20 @@ void egoShield::recordPage(bool brakeMode, bool recorded, uint8_t index, float p
     u8g2->setFontDirection(0);
     u8g2->setFont(u8g2_font_6x10_tf);
     
-    //Bottom bar
-    if(brakeMode)
-    {
-      u8g2->drawXBM(5, 51, en_width, en_height, bw_bits);
-      u8g2->drawXBM(112, 51, en_width, en_height, fw_bits);
-    }
+    u8g2->drawXBM(5, 51, en_width, en_height, bw_bits);
+    u8g2->drawXBM(112, 51, en_width, en_height, fw_bits);
     u8g2->drawXBM(38, 51, tt_width, tt_height, stop_bits);
     u8g2->drawXBM(76, 51, tt_width, tt_height, rec_bits);
 
     //Mode
     u8g2->drawStr(2,10,"Record");
-    if(brakeMode)
+    if(pidMode)
     {
-      u8g2->drawStr(45,10,"Brake");
+      u8g2->drawStr(45,10,"PID ON");
     }
     else
     {
-      u8g2->drawStr(45,10,"No Brake");
+      u8g2->drawStr(45,10,"PID OFF");
     }
     u8g2->setFontMode(1);
     u8g2->setDrawColor(1);
@@ -481,7 +470,7 @@ void egoShield::recordPage(bool brakeMode, bool recorded, uint8_t index, float p
   } while ( u8g2->nextPage() );  
 }
 
-void egoShield::playPage(bool loopMode, bool brakeMode, uint8_t index)
+void egoShield::playPage(bool loopMode, bool pidMode, uint8_t index)
 {
   char buf[3];//char array buffer
     
@@ -508,13 +497,13 @@ void egoShield::playPage(bool loopMode, bool brakeMode, uint8_t index)
 
     //Mode
     u8g2->drawStr(2,10,"Play");
-    if(brakeMode)
+    if(pidMode)
     {
-      u8g2->drawStr(45,10,"Brake");
+      u8g2->drawStr(45,10,"PID ON");
     }
     else
     {
-      u8g2->drawStr(45,10,"No Brake");
+      u8g2->drawStr(45,10,"PID OFF");
     }
     u8g2->setFontMode(1);
     u8g2->setDrawColor(1);
@@ -524,7 +513,7 @@ void egoShield::playPage(bool loopMode, bool brakeMode, uint8_t index)
   } while ( u8g2->nextPage() );  
 }
 
-void egoShield::pausePage(bool loopMode, bool brakeMode, uint8_t index)
+void egoShield::pausePage(bool loopMode, bool pidMode, uint8_t index)
 {
   char buf[3];//char array buffer
     
@@ -548,13 +537,13 @@ void egoShield::pausePage(bool loopMode, bool brakeMode, uint8_t index)
 
     //Mode
     u8g2->drawStr(2,10,"Pause");
-    if(brakeMode)
+    if(pidMode)
     {
-      u8g2->drawStr(45,10,"Brake");
+      u8g2->drawStr(45,10,"PID ON");
     }
     else
     {
-      u8g2->drawStr(45,10,"No Brake");
+      u8g2->drawStr(45,10,"PID OFF");
     }
     u8g2->setFontMode(1);
     u8g2->setDrawColor(1);
