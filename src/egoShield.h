@@ -36,7 +36,7 @@
 *	
 *	\image html functional.png
 *	
-*	- State is indicated at the top left orner of the OLED display
+*	- State is indicated at the top left corner of the OLED display
 *	- Brake mode is indicated in the top middle of the OLED display
 *	- Loop mode is indicated in the top right corner of the OLED display
 *	- The button functionalities are indicated by a bar in the bottom of the OLED display
@@ -172,14 +172,14 @@ public:
 	egoShield(void);
 	/**
 	* @brief      	Initializes buttons, OLED, uStepper and BT-module.
-	*/
-	void setup(uint16_t acc, uint16_t vel);
-	/**
-	* @brief      	Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).
 	*
 	* @param[in]  	acc takes in the maximum acceleration in play mode.
 	*
 	* @param[in]  	vel takes in the maximum velocity in play mode.
+	*/
+	void setup(uint16_t acc, uint16_t vel);
+	/**
+	* @brief      	Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).
 	*/	
 	void loop(void);
 	/**
