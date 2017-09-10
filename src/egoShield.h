@@ -85,6 +85,9 @@
 *	\version 0.1.0:	
 *	- Initial release
 *	
+*	\version 0.1.1:	
+*	- Corrected release version in library properties
+*
 */
 
 /**
