@@ -208,9 +208,19 @@ void egoShield::playMode(void)
       {
         state = 'd';//pause
       }
+      else if(fw == 1)//increase speed
+      {
+        this->velocity+=100;
+        this->acceleration+=100;
+      }
       else if(fw == 2)//loop mode start
       {
         loopMode = 1;
+      }
+      else if(bw == 1)//decrease speed
+      {
+        this->velocity-=100;
+        this->acceleration-=100;
       }
       else if(bw == 2)//loop mode stop
       {
@@ -472,7 +482,7 @@ void egoShield::recordPage(bool pidMode, bool recorded, uint8_t index, float pos
 
 void egoShield::playPage(bool loopMode, bool pidMode, uint8_t index)
 {
-  char buf[3];//char array buffer
+  char buf[6];//char array buffer
     
     u8g2->firstPage();
   do {
@@ -507,9 +517,12 @@ void egoShield::playPage(bool loopMode, bool pidMode, uint8_t index)
     }
     u8g2->setFontMode(1);
     u8g2->setDrawColor(1);
-    u8g2->drawStr(2,35,"Moving to pos");
-    String(index).toCharArray(buf, 3);
-    u8g2->drawStr(90,35,buf);
+    u8g2->drawStr(2,25,"Moving to pos");
+    String(index).toCharArray(buf, 6);
+    u8g2->drawStr(90,25,buf);
+    u8g2->drawStr(2,40,"Speed:");
+    String(this->velocity).toCharArray(buf, 6);
+    u8g2->drawStr(60,40,buf);
   } while ( u8g2->nextPage() );  
 }
 
