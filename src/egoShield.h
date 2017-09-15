@@ -296,13 +296,13 @@ private:
 	*/
 	void pauseMode(void);
 	/**
-	* @brief      	Holds the fast forward logic for driving the stepper motor manually with the pushbuttons.
+	* @brief      	Holds the manual forward logic for driving the stepper motor manually with the pushbuttons.
 	*/
-	void fastForward(void);
+	void manForward(void);
 	/**
-	* @brief      	Holds the fast backward logic for driving the stepper motor manually with the pushbuttons.
+	* @brief      	Holds the manual backward logic for driving the stepper motor manually with the pushbuttons.
 	*/
-	void fastBackward(void);
+	void manBackward(void);
 	/**
 	* @brief      	Holds the code for the start page of the OLED.
 	*/

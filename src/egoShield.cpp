@@ -129,41 +129,23 @@ void egoShield::idleMode(void)
     {
       pidFlag = 1;
       stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//pause PID to allow manual movement
+      this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
     }
     else
     {
       pidFlag = 0;
       stepper.setup(NORMAL,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,0);//pause PID to allow manual movement
       stepper.hardStop(SOFT);
+      this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
     }
   }
-  else if(fw == 1)//if manual forward signal
+  else if(fw == 1 || fw == 2)//if manual forward signal
   {
-    setPoint = stepper.encoder.getAngleMoved();
-    setPoint +=5;
-    stepper.moveToAngle(setPoint,0);//move 5deg
-    while(stepper.getMotorState())
-    {
-      delay(1);
-    }
+    this->manForward();
   }
-  else if(fw == 2)//if manual forward signal long
+  else if(bw == 1 || bw == 2)//if manual backward signal
   {
-    this->fastForward();
-  }
-  else if(bw == 1)//if manual backward signal
-  {
-    setPoint = stepper.encoder.getAngleMoved();
-    setPoint -=5;
-    stepper.moveToAngle(setPoint,0);
-    while(stepper.getMotorState())
-    {
-      delay(1);
-    }
-  }
-  else if(bw == 2)//if manual backward signal long
-  {
-    this->fastBackward();
+    this->manBackward();
   }
   else if(rec == 2)
   {
@@ -192,8 +174,7 @@ void egoShield::playMode(void)
   }
   else
   {
-    stepper.moveToAngle(pos[place],0);
-    place++;//increment array counter
+    stepper.moveToAngle(pos[place],0);  
     while(stepper.getMotorState())
     {
       this->inputs();//check inputs
@@ -208,25 +189,30 @@ void egoShield::playMode(void)
       {
         state = 'd';//pause
       }
-      else if(fw == 1)//increase speed
+      else if(fw == 1 && this->velocity <= 9900 && this->acceleration <= 19900)//increase speed
       {
         this->velocity+=100;
         this->acceleration+=100;
+        this->playPage(loopMode,pidFlag,place);
       }
       else if(fw == 2)//loop mode start
       {
         loopMode = 1;
+        this->playPage(loopMode,pidFlag,place);
       }
-      else if(bw == 1)//decrease speed
+      else if(bw == 1 && this->velocity >= 200 && this->acceleration >= 200)//decrease speed
       {
         this->velocity-=100;
         this->acceleration-=100;
+        this->playPage(loopMode,pidFlag,place);
       }
       else if(bw == 2)//loop mode stop
       {
         loopMode = 0;
+        this->playPage(loopMode,pidFlag,place);
       }
     }
+    place++;//increment array counter
   }  
   stepper.setMaxVelocity(1000);
   stepper.setMaxAcceleration(1500);
@@ -235,38 +221,15 @@ void egoShield::playMode(void)
 void egoShield::recordMode(void)
 {
   this->recordPage(pidFlag,0,place,stepper.encoder.getAngleMoved());
-  //if(pidFlag)
-  //{
-    if(fw == 1)//if manual forward signal
-    {
-      setPoint = stepper.encoder.getAngleMoved();
-      setPoint +=5;
-      stepper.moveToAngle(setPoint,0);//move 5deg
-      while(stepper.getMotorState())
-      {
-        delay(1);
-      }
-    }
-    else if(fw == 2)//if manual forward signal long
-    {
-      this->fastForward();
-    }
-    else if(bw == 1)//if manual backward signal
-    {
-      setPoint = stepper.encoder.getAngleMoved();
-      setPoint -=5;
-      stepper.moveToAngle(setPoint,0);
-      while(stepper.getMotorState())
-      {
-        delay(1);
-      }
-    }
-    else if(bw == 2)//if manual forward signal long
-    {
-      this->fastBackward();
-    }
-  //}
-  if(rec == 1)//record position
+  if(fw == 1 || fw == 2)//if manual forward signal
+  {
+    this->manForward();
+  }
+  else if(bw == 1|| bw == 2)//if manual backward signal
+  {
+    this->manBackward();
+  }
+  else if(rec == 1)//record position
   {      
     if(record == 0)//If we were not recording before
     {
@@ -310,6 +273,7 @@ void egoShield::pauseMode(void)
     setPoint = stepper.encoder.getAngleMoved();
   }  
 }
+
 void egoShield::inputs(void)
 {
   fw = this->buttonState(FWBT,0);
@@ -320,7 +284,7 @@ void egoShield::inputs(void)
 
 uint8_t egoShield::buttonState(uint8_t button, uint8_t nmbr)
 {
-  uint32_t count = 0;
+  uint16_t count = 0;
   uint8_t push = 0;
   if(digitalRead(button)==0)
   {
@@ -331,7 +295,7 @@ uint8_t egoShield::buttonState(uint8_t button, uint8_t nmbr)
       {
         push = 1;
       }
-      if(count>=100000)//long press
+      if(count>=65500)//long press
       {
         push = 2;
         longPushFlag[nmbr] = 1;
@@ -346,38 +310,50 @@ uint8_t egoShield::buttonState(uint8_t button, uint8_t nmbr)
   return push;
 }
 
-void egoShield::fastForward(void)
+void egoShield::manForward(void)
 {
   setPoint = stepper.encoder.getAngleMoved();
-  setPoint +=10;
+  setPoint +=5;
   stepper.moveToAngle(setPoint,0);
-  while(digitalRead(FWBT)==0)
+  while(digitalRead(FWBT)==0 || stepper.getMotorState())
   {
-    setPoint +=10;
-    stepper.moveToAngle(setPoint,0);
-    this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
+    if(digitalRead(FWBT)==0)//fast forward
+    {
+      setPoint +=10;
+      stepper.moveToAngle(setPoint,0);
+    }
+    if(state == 'a')
+    {
+      this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
+    }
+    else
+    {
+      this->recordPage(pidFlag,0,place,stepper.encoder.getAngleMoved());
+    }
   }    
-  while(stepper.getMotorState())
-  {
-    delay(1);
-  }
 }
 
-void egoShield::fastBackward(void)
+void egoShield::manBackward(void)
 {
   setPoint = stepper.encoder.getAngleMoved();
-  setPoint -=10;
+  setPoint -=5;
   stepper.moveToAngle(setPoint,0);
-  while(digitalRead(BWBT)==0)
+  while(digitalRead(BWBT)==0 || stepper.getMotorState())
   {
-    setPoint -=10;
-    stepper.moveToAngle(setPoint,0);
-    this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
+    if(digitalRead(BWBT)==0)//fast backward
+    {
+      setPoint -=10;
+      stepper.moveToAngle(setPoint,0);
+    }
+    if(state == 'a')
+    {
+      this->idlePage(pidFlag,stepper.encoder.getAngleMoved());
+    }
+    else
+    {
+      this->recordPage(pidFlag,0,place,stepper.encoder.getAngleMoved());
+    }
   }  
-  while(stepper.getMotorState())
-  {
-    delay(1);
-  }
 }
 
 void egoShield::startPage(void)
@@ -390,7 +366,7 @@ void egoShield::startPage(void)
 
 void egoShield::idlePage(bool pidMode, float pos)
 {
-  char buf[16];
+  char buf[18];
   String sBuf;
   
   u8g2->firstPage();
@@ -425,7 +401,7 @@ void egoShield::idlePage(bool pidMode, float pos)
     sBuf = "Encoder: ";
     sBuf += (int32_t)pos;
     sBuf += (char)176;
-    sBuf.toCharArray(buf, 16);
+    sBuf.toCharArray(buf, 18);
     u8g2->drawStr(2,35,buf);
   } while ( u8g2->nextPage() );  
 }
@@ -474,7 +450,7 @@ void egoShield::recordPage(bool pidMode, bool recorded, uint8_t index, float pos
     sBuf = "Encoder: ";
     sBuf += (int32_t)pos;
     sBuf += (char)176;
-    sBuf.toCharArray(buf, 16);
+    sBuf.toCharArray(buf, 22);
     u8g2->drawStr(2,35,buf);
     }
   } while ( u8g2->nextPage() );  
@@ -482,7 +458,7 @@ void egoShield::recordPage(bool pidMode, bool recorded, uint8_t index, float pos
 
 void egoShield::playPage(bool loopMode, bool pidMode, uint8_t index)
 {
-  char buf[6];//char array buffer
+  char buf[5];//char array buffer
     
     u8g2->firstPage();
   do {
@@ -518,10 +494,10 @@ void egoShield::playPage(bool loopMode, bool pidMode, uint8_t index)
     u8g2->setFontMode(1);
     u8g2->setDrawColor(1);
     u8g2->drawStr(2,25,"Moving to pos");
-    String(index).toCharArray(buf, 6);
+    String(index).toCharArray(buf, 5);
     u8g2->drawStr(90,25,buf);
     u8g2->drawStr(2,40,"Speed:");
-    String(this->velocity).toCharArray(buf, 6);
+    String(this->velocity).toCharArray(buf, 5);
     u8g2->drawStr(60,40,buf);
   } while ( u8g2->nextPage() );  
 }
