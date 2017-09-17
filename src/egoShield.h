@@ -76,6 +76,8 @@
 *	- Add comments in the .cpp
 *	- clean the code in .cpp
 *	- Add BT support
+*	- Add endOfRail functionality
+*	- Add brakeFlag toggle (remove it from setup function)
 *
 *	\par Known Bugs
 *	- No known bugs
@@ -113,6 +115,7 @@
 #define RECBT A2
 #define BWBT A0
 #define CNT 50
+#define OPTO 3
 
 /** Full step definition*/
 #define FULL 1							
@@ -123,7 +126,12 @@
 /** Eighth step definition*/
 #define EIGHT 8							
 /** Sixteenth step definition*/	
-#define SIXTEEN 16				
+#define SIXTEEN 16			
+/** Positioning config definition*/	
+#define POSITIONING 0
+ /** Timelapse config definition*/	
+#define TIMELAPSE 1
+
 
 #define en_width 11
 #define en_height 9
@@ -208,7 +216,9 @@ public:
 						  uint16_t fHys = 5, 
 						  float P = 1.0, 
 						  float I = 0.02, 
-						  float D = 0.006);
+						  float D = 0.006,
+						  bool config = POSITIONING,
+						  float res = 1);
 	/**
 	* @brief      	Contains the main logic of the shield functionality, e.g. transition between states (idle, play, record and pause).
 	*/	
@@ -262,6 +272,17 @@ private:
 	float iTerm; 
 	/** This variable holds the PID D term */
 	float dTerm;
+	/** This variable holds the stepSize for timelapse */
+	uint16_t stepSize;
+	/** This variable holds the interval for timelapse */
+	uint16_t interval;
+	/** This variable holds the end of rail flag */
+	bool endOfRail;
+	/** This variable holds the resolution deg/mm */
+	float resolution;
+	/** This variable holds the brake flag */
+	bool brakeFlag;
+
 	/**
 	* @brief      	Reads the four buttons and writes their value; no push, short push or long push, to global variables.
 	*/
@@ -296,13 +317,17 @@ private:
 	*/
 	void pauseMode(void);
 	/**
-	* @brief      	Holds the fast forward logic for driving the stepper motor manually with the pushbuttons.
+	* @brief      	Holds the timelapse logic, showing the timelapse page.
 	*/
-	void fastForward(void);
+	void timeMode(void);
 	/**
-	* @brief      	Holds the fast backward logic for driving the stepper motor manually with the pushbuttons.
+	* @brief      	Holds the manual forward logic for driving the stepper motor manually with the pushbuttons.
 	*/
-	void fastBackward(void);
+	void manForward(void);
+	/**
+	* @brief      	Holds the manual backward logic for driving the stepper motor manually with the pushbuttons.
+	*/
+	void manBackward(void);
 	/**
 	* @brief      	Holds the code for the start page of the OLED.
 	*/
@@ -347,5 +372,13 @@ private:
 	* @param[in]  	index tells which step we are at.
 	*/
 	void pausePage(bool loopMode, bool pidMode, uint8_t index);
+	/**
+	* @brief      	Holds the code for the timelapse page of the OLED.
+	*
+	* @param[in]  	pidMode tells if the display should show PID ON or PID OFF.
+	*
+	* @param[in]  	index tells which step we are at in the timelapse mode.
+	*/
+	void timePage(uint8_t step, bool pidMode);
 };
 #endif

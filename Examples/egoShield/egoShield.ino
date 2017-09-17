@@ -8,12 +8,13 @@
 #define P 1.0 //P-term of the PID
 #define I 0.1 //I-term of the PID
 #define D 0.05 //D-term of the PID
+#define RESOLUTION 5 // Degree per mm of travel
 
 egoShield ego;
 
 void setup() {
   // put your setup code here, to run once:
-  ego.setup(ACCELERATION,VELOCITY,MICROSTEPPING,TOLERANCE,HYTERESIS,P,I,D);
+  ego.setup(ACCELERATION,VELOCITY,MICROSTEPPING,TOLERANCE,HYTERESIS,P,I,D,TIMELAPSE,5);
 }
 
 void loop() {
