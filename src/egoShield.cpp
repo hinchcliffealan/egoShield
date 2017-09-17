@@ -68,7 +68,7 @@ egoShield::egoShield(void)
   u8g2 = new U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI(U8G2_R0, /* clock=*/ 11, /* data=*/ 9, /* cs=*/ U8X8_PIN_NONE, /* dc=*/ 2, /* reset=*/ 10);
 }
 
-void egoShield::setup(uint16_t acc, uint16_t vel, uint8_t uStep, uint16_t fTol, uint16_t fHys, float P, float I, float D)
+void egoShield::setup(uint16_t acc, uint16_t vel, uint8_t uStep, uint16_t fTol, uint16_t fHys, float P, float I, float D, bool config, float res)//mode? timelapse or the other mode, maybe a res deg to mm? brake mode?
 {
   this->acceleration = acc;
   this->velocity = vel;
@@ -78,6 +78,12 @@ void egoShield::setup(uint16_t acc, uint16_t vel, uint8_t uStep, uint16_t fTol, 
   this->pTerm = P;
   this->iTerm = I;
   this->dTerm = D;
+  this->resolution = res;
+
+
+  brakeFlag = 1;
+  
+
   stepper.setup(PID,this->microStepping,this->faultTolerance,this->faultHysteresis,this->pTerm,this->iTerm,this->dTerm,1);
   stepper.encoder.setHome();
   pidFlag = 1;//enable PID
@@ -95,6 +101,10 @@ void egoShield::setup(uint16_t acc, uint16_t vel, uint8_t uStep, uint16_t fTol, 
   this->startPage();//show startpage
   delay(2000);//for 2 seconds
   state = 'a';//start in idle
+  if(config)
+  {
+    #define TIMELAPSES
+  }
 }
 
 void egoShield::loop(void)
@@ -107,10 +117,18 @@ void egoShield::loop(void)
     break;
     
     case 'b'://if we are in play
+    #ifdef TIMELAPSES
+    state = 'a';
+    break;
+    #endif
     playMode();
     break;
     
     case 'c'://if we are in record
+    #ifdef TIMELAPSES
+    timeMode();
+    break;
+    #endif
     recordMode();
     break;
   
@@ -159,9 +177,24 @@ void egoShield::idleMode(void)
 
 void egoShield::playMode(void)
 {
+  this->playPage(loopMode,pidFlag,place);
+  while(play != 1)
+  {
+    if(fw == 1 && this->velocity <= 9900 && this->acceleration <= 19900)//increase speed
+      {
+        this->velocity+=100;
+        this->acceleration+=100;
+        this->playPage(loopMode,pidFlag,place);
+      }
+      else if(bw == 1 && this->velocity >= 200 && this->acceleration >= 200)//decrease speed
+      {
+        this->velocity-=100;
+        this->acceleration-=100;
+        this->playPage(loopMode,pidFlag,place);
+      }
+  }  
   stepper.setMaxVelocity(this->velocity);
   stepper.setMaxAcceleration(this->acceleration);
-  this->playPage(loopMode,pidFlag,place);
   if(loopMode && place > endmove)
   {
     place=0;
@@ -174,7 +207,7 @@ void egoShield::playMode(void)
   }
   else
   {
-    stepper.moveToAngle(pos[place],0);  
+    stepper.moveToAngle(pos[place],brakeFlag);  
     while(stepper.getMotorState())
     {
       this->inputs();//check inputs
@@ -274,6 +307,100 @@ void egoShield::pauseMode(void)
   }  
 }
 
+void egoShield::timeMode(void)
+{  
+  uint8_t step = 0;
+  this->timePage(step,pidFlag);
+  while(step == 0)//first put in how long to move at every step in mm
+  {
+    this->inputs();//check buttons
+    this->timePage(step,pidFlag);
+    if(fw == 1 && stepSize < 65000)
+    {
+      stepSize=stepSize+5;
+    }
+    else if(bw == 1 && stepSize > 10)
+    {
+      stepSize=stepSize-5;
+    }
+    else if(rec == 1)
+    {
+      step = 1;
+    }
+  }
+  while(step == 1)//next put in how long the intervals between moves are in milliseconds
+  {
+    this->inputs();//check buttons
+    this->timePage(step,pidFlag);
+    if(fw == 1 && interval < 65000)
+    {
+      interval=interval+25;
+    }
+    else if(bw == 1 && interval > 50)
+    {
+      interval=interval-25;
+    }
+    else if(rec == 1)
+    {
+      step = 2;
+    }
+  }
+  while(step == 2)//ready to play
+  {
+    this->inputs();//check buttons
+    this->timePage(step,pidFlag);   
+    if(play == 2)
+    {
+      state = 'a';
+      step = 0;
+      break;
+    }
+    else if(play == 1)
+    {
+      step = 3;
+    }
+  }
+  while(step == 3 && !endOfRail)//playing until the end
+  {
+    this->inputs();//check buttons
+    this->timePage(step,pidFlag);    
+    if(play == 2)
+    {
+      state = 'a';
+      step = 0;
+      break;
+    }
+    else
+    {
+      setPoint = stepper.encoder.getAngleMoved();
+      setPoint +=(stepSize);
+      stepper.moveToAngle(setPoint,brakeFlag);
+      while(stepper.getMotorState())
+      {
+        this->timePage(step,pidFlag);
+      }
+      digitalWrite(OPTO, LOW);   // sets the LED in the opto on triggering the camera
+      delay(200);              // waits for a 200 milli seconds to allow camera to realise trigger has been fired
+      digitalWrite(OPTO, HIGH);  // sets the LED in the opto off releases the camera trigger
+      delay(interval);
+    }
+  }
+
+  setPoint =setPoint-10;//back off a little
+  stepper.moveToAngle(setPoint,brakeFlag); 
+  state = 'a';//idle state
+
+  //first put in how long to move at every step (mark line)
+  //then press rec, to save this (increment a counter)
+  //next put in how long the intervals between moves are (mark line)
+  //press rec to save it 
+  //start timelapse with settings, and end when end of rail is reached (show ready, and press play to start)
+  //stop when reaching end of rail
+
+  //if pid error above some threshold, give signal
+ 
+}
+
 void egoShield::inputs(void)
 {
   fw = this->buttonState(FWBT,0);
@@ -314,13 +441,13 @@ void egoShield::manForward(void)
 {
   setPoint = stepper.encoder.getAngleMoved();
   setPoint +=5;
-  stepper.moveToAngle(setPoint,0);
+  stepper.moveToAngle(setPoint,brakeFlag);
   while(digitalRead(FWBT)==0 || stepper.getMotorState())
   {
     if(digitalRead(FWBT)==0)//fast forward
     {
       setPoint +=10;
-      stepper.moveToAngle(setPoint,0);
+      stepper.moveToAngle(setPoint,brakeFlag);
     }
     if(state == 'a')
     {
@@ -343,7 +470,7 @@ void egoShield::manBackward(void)
     if(digitalRead(BWBT)==0)//fast backward
     {
       setPoint -=10;
-      stepper.moveToAngle(setPoint,0);
+      stepper.moveToAngle(setPoint,brakeFlag);
     }
     if(state == 'a')
     {
@@ -539,5 +666,79 @@ void egoShield::pausePage(bool loopMode, bool pidMode, uint8_t index)
     u8g2->drawStr(2,35,"Paused at pos");
     String(index).toCharArray(buf, 3);
     u8g2->drawStr(90,35,buf);
+  } while ( u8g2->nextPage() );  
+}
+
+
+void egoShield::timePage(uint8_t step, bool pidMode)
+{
+  char buf[22];//char array buffer
+  String sBuf;
+  u8g2->firstPage();
+  do {
+    u8g2->drawBox(1, 1, 128, 12);
+    u8g2->drawBox(1, 48, 128, 68);
+    u8g2->setFontMode(0);
+    u8g2->setDrawColor(0);
+    u8g2->setFontDirection(0);
+    u8g2->setFont(u8g2_font_6x10_tf);
+        if(step == 0)//we are waiting for the distance interval to be put in
+    {
+      u8g2->drawXBM(5, 51, en_width, en_height, bw_bits);
+      u8g2->drawXBM(112, 51, en_width, en_height, fw_bits);
+      u8g2->drawXBM(76, 51, tt_width, tt_height, rec_bits);
+      u8g2->setFontMode(1);
+      u8g2->setDrawColor(1);
+      u8g2->drawStr(110,24,"<-");
+      u8g2->setFontMode(0);
+      u8g2->setDrawColor(0);
+    }
+    else if(step == 1)//we are waiting for the time interval to be put in
+    {
+      u8g2->drawXBM(5, 51, en_width, en_height, bw_bits);
+      u8g2->drawXBM(112, 51, en_width, en_height, fw_bits);
+      u8g2->drawXBM(76, 51, tt_width, tt_height, rec_bits);
+      u8g2->setFontMode(1);
+      u8g2->setDrawColor(1);
+      u8g2->drawStr(110,34,"<-");
+      u8g2->setFontMode(0);
+      u8g2->setDrawColor(0);
+    }
+    else if(step == 2)//we are waiting for play to be issued
+    {
+      u8g2->drawXBM(32, 50, play_width, play_height, play_bits);
+      u8g2->drawXBM(38, 51, tt_width, tt_height, stop_bits);
+    }
+    else if(step == 3)//we are playing sequence until end of rail
+    {
+      u8g2->drawXBM(38, 51, tt_width, tt_height, stop_bits);
+    }
+
+    u8g2->drawStr(2,10,"Time");
+    if(pidMode)
+    {
+      u8g2->drawStr(45,10,"PID ON");
+    }
+    else
+    {
+      u8g2->drawStr(45,10,"PID OFF");
+    }
+    u8g2->setFontMode(1);
+    u8g2->setDrawColor(1);
+    sBuf = "Stepsize:  ";
+    sBuf += (uint32_t)(stepSize*resolution);
+    sBuf += " mm";
+    sBuf.toCharArray(buf, 22);
+    u8g2->drawStr(2,24,buf);
+    sBuf = "Interval:  ";
+    sBuf += interval*0.001;
+    sBuf += " s";
+    sBuf.toCharArray(buf, 22);
+    u8g2->drawStr(2,34,buf); 
+    sBuf = "Encoder:   ";
+    sBuf += (int32_t)(stepper.encoder.getAngleMoved()*resolution);
+    sBuf += " mm";
+    sBuf.toCharArray(buf, 22);
+    u8g2->drawStr(2,44,buf);
   } while ( u8g2->nextPage() );  
 }
